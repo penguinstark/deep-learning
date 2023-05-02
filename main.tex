@@ -1,0 +1,114 @@
+\documentclass{assignment}
+\usepackage[latin1]{inputenc}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\pagestyle{empty}
+\renewcommand\thesubsection{\Alph{subsection}}
+\begin{document}
+
+\assignmentTitle{Kaushik Karthik Prasanna}{kp943}{assets/logo.png}{Intro to Deep Learning}{Homework 2}
+\vspace{-\baselineskip}\
+
+\section*{Problem 1 (Practice of scalar--based backpropagation)}
+\small
+You are required to calculate the gradients of $f(x,w)=\frac{1}{2+sin^2(x_1w_1)+cos(x_2w_2)}$ with respect to $x_i$ and $w_i$.
+
+\subsection{Use computational graph for calculation}
+
+%tree
+{
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=3.5cm, sibling distance=2cm]
+\tikzstyle{level 2}=[level distance=3.5cm, sibling distance=2cm]
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+
+\begin{tikzpicture} [grow=right, sloped]
+    \node[bag] {$a\div b$}
+        child {
+            node[bag] {$c+d+e$}
+            child {
+                node[bag] {$2$}
+                edge from parent
+                node[above] {$c$}
+            }
+            child {
+                node[bag] {$g^2$}
+                child {
+                    node[bag] {$sin(x_1w_1)$}
+                    child {
+                        node[bag] {$3/2$}
+                        edge from parent
+                        node[above] {$x_1$}
+                    }
+                    child {
+                        node[bag] {$\pi/2$}
+                        edge from parent
+                        node[above] {$w_1$}
+                    }
+                    edge from parent
+                    node[above] {$g$}
+                    node[below] {$sin(\frac{3\pi}{4})$}
+                }
+                edge from parent
+                node[above] {$d$}
+                node[below] {$0.5$}
+            }
+            child {
+                node[bag] {$cos(x_2w_2)$}
+                child {
+                    node[bag] {$\pi/3$}
+                    edge from parent
+                    node[above] {$x_2$}
+                }
+                child {
+                    node[bag] {$3$}
+                    edge from parent
+                    node[above] {$w_2$}
+                }
+                edge from parent
+                node[above] {$e$}
+                node[below] {$-1$}
+            }
+            edge from parent         
+            node[above] {$b$}
+            node[below] {1.5}
+        }
+        child {
+            node[bag] {$1$}
+            edge from parent 
+            node[above] {$a$}
+        };
+\end{tikzpicture}
+}
+
+\begin{multline}
+    
+\end{multline}
+We know: $\frac{\partial f}{\partial x_1} = \frac{\partial f}{\partial b}*\frac{\partial b}{\partial d}*\frac{\partial d}{\partial x_1} =$
+
+\subsection{Based on(a), write a program to implement the computational graph and verify your answer in (a).}
+
+\begin{multicols}{2}
+    \lstinputlisting[language=python]{assets/scalar.py}
+    \columnbreak
+    \vspace*{\fill}
+        The following output was returned and confirms the answer as $\frac{2}{3}$.
+        \begin{verbatim}
+        $ python3 scalar.py
+        0.666666666667
+        \end{verbatim}
+    \vspace*{\fill}
+\end{multicols}
+
+\section*{Problem 2 (Practice of vector--based backpropagation)}
+\small You are required to calculate the gradients of
+\hword{highlight box} example
+
+\subsection{(a) Use computational graph for calculation}
+
+\end{document}
